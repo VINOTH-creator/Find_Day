@@ -1,0 +1,52 @@
+import java.util.*;
+class Main{
+    public static int getyearcode(int n)
+    {
+        if(1900<=n && n<=1999)
+          return 0;
+        else if(2000<=n && n<=2099)
+          return 6;
+        return 0;  
+    }
+    public static int getmonthcode(String s)
+    {
+        String[] str={"January","February","March","April","May","June","July","Augest","September","October","November","December"};
+        int[] arr={0,3,3,6,1,4,6,2,5,0,3,5};
+        for(int i=0;i<str.length;i++)
+         if(str[i].equals(s))
+            return arr[i];
+        return 0; 
+    }
+    public static String dayOf(int n)
+    {
+        String[] str={"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+        for(int i=0;i<str.length;i++)
+        if(i==n) return str[i];
+        return "Cannot find the day";
+    }
+    public static void main(String args[])
+    {
+        Scanner sc=new Scanner(System.in);
+        String s=sc.nextLine();
+        String[] str=s.split("-");
+        int sum=Integer.parseInt(str[0]);
+        s="";
+        for(int i=str[2].length()-1;i>=0;i--)
+        {
+            s+=str[2].charAt(i);
+            if(s.length()==2) break;
+        }
+        s=new StringBuilder(s).reverse().toString();
+        int last=Integer.parseInt(s);
+        sum+=last;
+        int num=Integer.parseInt(str[2]);
+        if(num%4==0 && num%100!=0 || num%400==0)
+          sum=sum;
+        else  
+          sum+=(int)last/4;
+        sum+=getyearcode(Integer.parseInt(str[2]));
+        sum+=getmonthcode(str[1]);
+        sum=sum%7;
+        System.out.println(dayOf(sum));
+    }
+}
